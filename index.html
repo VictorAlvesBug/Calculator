@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculadora</title>
   <link href="./styles.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet">
   <script src="./script.js" type="module" type="text/javascript"></script>
   <!-- 
     defer: roda o script apenas depois de ter finalizado a leitura do html.
@@ -26,26 +28,27 @@
     <div class="container-buttons">
       <button id="clearDisplay">CE</button>
       <button id="clearCalc">C</button>
-      <button id="backspace">«</button>
-      <button id="divideOperator">/</button>
+      <button id="backspace" class="material-icons">backspace</button>
+      <button id="divideOperator"><span></span></button>
       <button id="key7">7</button>
       <button id="key8">8</button>
       <button id="key9">9</button>
-      <button id="timesOperator">*</button>
+      <button id="timesOperator" class="material-icons">close</button>
       <button id="key4">4</button>
       <button id="key5">5</button>
       <button id="key6">6</button>
-      <button id="minusOperator">-</button>
+      <button id="minusOperator" class="material-icons">remove</button>
       <button id="key1">1</button>
       <button id="key2">2</button>
       <button id="key3">3</button>
-      <button id="plusOperator">+</button>
+      <button id="plusOperator" class="material-icons">add</button>
       <button id="inverter">±</button>
-      <button id="key0" placeholder="12">0</button>
+      <button id="key0">0</button>
       <button id="decimal">,</button>
       <button id="equal">=</button>
     </div>
   </div>
+  <button class="test-calculator">Test Calculator</button>
 </body>
 
 </html>

@@ -6,10 +6,12 @@
 
 :root{
     --bgBody: rgb(73, 73, 73);
-    --bgCalculator: rgb(125, 56, 236);
-    --bgDisplay: rgb(187, 187, 187);
-    --bgButton: white;
-    --bgNumberButton: rgb(202, 202, 202);
+    --bgCalculator: #2a45e0;
+    --bgDisplay: #a2a6aa;
+    --bgNumberButton: #97cec2;
+    --bgOperatorButton: #eeac16;
+    --bgEqualButton: #f57474;
+    --textColor: black;
 }
 
 body{
@@ -17,8 +19,10 @@ body{
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 40px;
 }
 
 .calculator{
@@ -51,14 +55,18 @@ body{
     font-size: 14px;
     font-family: Consolas;
     text-align: right;
+    font-weight: bold;
+    color: var(--textColor);
 }
 
 .display>.currentDigits{
     min-width: 100px;
     height: 40px;
-    font-size: 30px;
+    font-size: 28px;
     font-family: Consolas;
     text-align: right;
+    font-weight: bold;
+    color: var(--textColor);
 }
 
 .container-buttons{
@@ -74,15 +82,116 @@ body{
     width: 50px;
     height: 50px;
     border: none;
-    background-color: var(--bgButton);
+    background-color: var(--bgDisplay);
+    color: var(--textColor);
     font-size: 20px;
     cursor: pointer;
+    user-select: none;
+}
+
+.container-buttons > button:hover{
+    opacity: 0.8;
 }
 
 .container-buttons > button:active{
     transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
 }
 
 .container-buttons [id*=key] {
     background-color: var(--bgNumberButton);
+    font-weight: bold;
+}
+
+.container-buttons [id*=Operator] {
+    background-color: var(--bgOperatorButton);
+}
+
+.container-buttons #equal {
+    background-color: var(--bgEqualButton);
+}
+
+#divideOperator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#divideOperator > span{
+    width: 12px;
+    height: 2px;
+    background-color: var(--textColor);
+}
+
+
+#divideOperator > span:before,
+#divideOperator > span:after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    left: 50%;
+    background-color: var(--textColor);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+#divideOperator > span:before {
+    transform: translate(-50%, -5px);
+    -webkit-transform: translate(-50%, -5px);
+    -moz-transform: translate(-50%, -5px);
+    -ms-transform: translate(-50%, -5px);
+    -o-transform: translate(-50%, -5px);
+}
+
+#divideOperator > span:after {
+    transform: translate(-50%, 5px);
+    -webkit-transform: translate(-50%, 5px);
+    -moz-transform: translate(-50%, 5px);
+    -ms-transform: translate(-50%, 5px);
+    -o-transform: translate(-50%, 5px);
+}
+
+#decimal{
+    font-size: 30px;
+}
+
+.test-calculator{
+    width: 200px;
+    height: 40px;
+    background-color: var(--bgCalculator);
+    color: var(--bgButton);
+    text-transform: uppercase;
+    font-size: 20px;
+    padding: 8px;
+    font-family: Consolas;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px #0009,
+                0px 4px 10px #0005;
+    border: none;
+    outline-style: none;
+    cursor: pointer;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.test-calculator:hover{
+    opacity: 0.8;
+}
+
+.test-calculator:active{
+    transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -moz-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    -o-transform: scale(0.95);
 }

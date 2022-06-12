@@ -1,47 +1,77 @@
 function createCalculator(display) {
-  const previousCalc = display.querySelector(".previousCalc");
-  const currentDigits = display.querySelector(".currentDigits");
+  const previousCalc = display.querySelector('.previousCalc');
+  const currentDigits = display.querySelector('.currentDigits');
   let isNewNumber = true;
   let prevNumber = 0;
   let currNumber;
   let operator;
+  let calculated = false;
 
-  const updateDisplay = (numberOrComma) => {
-    const isZero = currentDigits.innerText === "0";
-    if (isNewNumber || isZero) {
-      currentDigits.innerText = numberOrComma;
-      isNewNumber = false;
-    } else currentDigits.innerText += numberOrComma;
+  const getDisplayDigits = () => {
+    return currentDigits.innerText;
   };
 
-  const updatePreviousCalc = strCalc => {
-    //const temp = previousCalc.innerText;
+  const updateDisplayDigits = (number) => {
+    const isZero = getDisplayDigits() === '0';
+    if (isNewNumber || isZero) {
+      currentDigits.innerText = number;
+      isNewNumber = false;
+    } else currentDigits.innerText += number;
+  };
+
+  const getPreviousCalc = () => {
+    return previousCalc.innerText;
+  };
+
+  const updatePreviousCalc = (strCalc) => {
     previousCalc.innerText = strCalc;
-    //console.log(`${temp} ${strCalc}`)
+  };
+
+  const insertDigit = (number) => {
+    if(calculated){
+      updatePreviousCalc('')
+    }
+    updateDisplayDigits(number);
   };
 
   const removeLastDigit = () => {
-    isNewNumber = true;
-    updateDisplay(currentDigits.innerText.slice(0, -1));
+    let newNumber = getDisplayDigits().slice(0, -1);
+    if (newNumber === '') {
+      newNumber = '0';
+    }
+    if(!isNewNumber){
+      isNewNumber = true;
+      updateDisplayDigits(newNumber);
+    }
+
+    if(calculated){
+      updatePreviousCalc('');
+    }
   };
 
   const selectOperator = (operatorParam) => {
-      if (isNewNumber) {
-          prevNumber = currentDigits.innerText;
-        } else {
-            prevNumber = calc(prevNumber, currentDigits.innerText);
-            isNewNumber = true;
-        }
-        currNumber = undefined;
-        operator = operatorParam;
-    currentDigits.innerText = calc();
+    if (isNewNumber) {
+      prevNumber = getDisplayDigits();
+    } else {
+      prevNumber = calc(prevNumber, getDisplayDigits());
+      isNewNumber = true;
+    }
+    currNumber = undefined;
+    operator = operatorParam;
+    isNewNumber = true;
+    updateDisplayDigits(calc());
+    isNewNumber = true;
+    calculated = false;
   };
 
   const equal = () => {
-    isNewNumber = true;
-    currNumber = currNumber ?? currentDigits.innerText;
+    currNumber = currNumber ?? getDisplayDigits();
     prevNumber = calc();
-    currentDigits.innerText = prevNumber;
+    isNewNumber = true;
+    updateDisplayDigits(prevNumber);
+    isNewNumber = true;
+    calculated = true;
+    operator = undefined;
   };
 
   const calc = (num1, num2) => {
@@ -54,62 +84,74 @@ function createCalculator(display) {
     }
 
     if (operator === undefined) {
-      updatePreviousCalc(`${currentDigits.innerText} =`);
-      return currentDigits.innerText;
+      updatePreviousCalc(`${getDisplayDigits()} =`);
+      return getDisplayDigits();
     }
 
-    if(operator === '/' && Number(usePoint(num2)) === 0){
-        console.error("Erro: divisão por zero resulta em um valor indeterminado.")
-        currNumber = num1;
-        return currNumber;
+    if (operator === '/' && Number(usePoint(num2)) === 0) {
+      alert('Erro: divisão por zero resulta em um valor indeterminado.');
+      clearCalc();
+      return 0;
     }
 
     updatePreviousCalc(`${num1} ${operator} ${num2} =`);
     num1 = Number(usePoint(num1));
     num2 = Number(usePoint(num2));
     let result = eval(`${num1}${operator}${num2}`);
-    const maxPrecision = 1_000_000_000;
-    result = Math.round(result * maxPrecision) / maxPrecision;
+    
+    const maxDecimalPlacesAmount = 15;
+    const intPositiveResult = Math.floor(Math.abs(result));
+    const resultLength = intPositiveResult.toString().length;
+    const multiplier = Math.pow(10, maxDecimalPlacesAmount - resultLength);
+    result = Math.round(result * multiplier) / multiplier;
     return useComma(result);
   };
 
   const invertSignal = () => {
-    const newNumber = usePoint(currentDigits.innerText) * -1;
+    const newNumber = usePoint(getDisplayDigits()) * -1;
     isNewNumber = true;
-    updateDisplay(useComma(newNumber));
+    updateDisplayDigits(useComma(newNumber));
   };
 
   const insertComma = () => {
-    const isZero = currentDigits.innerText === "0";
+    const isZero = getDisplayDigits() === '0';
     if (isNewNumber || isZero) {
-      return updateDisplay("0,");
+      isNewNumber = true;
+      return updateDisplayDigits('0,');
     }
 
-    const hasNoComma = !currentDigits.innerText.includes(",");
+    const hasNoComma = !getDisplayDigits().includes(',');
     if (hasNoComma) {
-      updateDisplay(",");
+      updateDisplayDigits(',');
     }
   };
 
-  const useComma = (number) => number.toString().replace(".", ",");
+  const useComma = (number) => number.toString().replace(',', '').replace('.', ',');
 
-  const usePoint = (number) => number.toString().replace(",", ".");
+  const usePoint = (number) => number.toString().replace('.', '').replace(',', '.');
 
   const clearDisplay = () => {
-    currentDigits.innerText = "0";
+    isNewNumber = true;
+    updateDisplayDigits('0');
+    if(calculated) {
+      updatePreviousCalc('');
+      isNewNumber = true;
+      prevNumber = 0;
+    }
   };
 
   const clearCalc = () => {
     clearDisplay();
-    previousCalc.innerText = "";
+    updatePreviousCalc('');
     isNewNumber = true;
     prevNumber = 0;
     currNumber = undefined;
     operator = undefined;
+    calculated = false;
   };
 
   return {
-    updateDisplay,
+    insertDigit,
     removeLastDigit,
     selectOperator,
     equal,
@@ -117,6 +159,8 @@ function createCalculator(display) {
     insertComma,
     clearDisplay,
     clearCalc,
+    getResult: getDisplayDigits,
+    getCalc: getPreviousCalc
   };
 }
 
