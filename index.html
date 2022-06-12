@@ -7,14 +7,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculadora</title>
   <link href="./styles.css" rel="stylesheet" />
-  <script src="./script.js" defer type="text/javascript"></script>
+  <script src="./script.js" type="module" type="text/javascript"></script>
+  <!-- 
+    defer: roda o script apenas depois de ter finalizado a leitura do html.
+    Como se o script estivesse sendo importado no final do body.
+    A importação do script no final do body ou utilização do "defer" é necessária
+    quando o script manipula elementos do DOM. Caso o script seja executado antes 
+    do DOM ser carregado, os elementos não serão encontrados no JS.
+  -->
 </head>
 
 <body>
   <div class="calculator">
     <div class="display" id="display">
       <div class="previousCalc"></div>
-      <div class="currentDisplay"></div>
+      <div class="currentDigits">0</div>
     </div>
     <div class="container-buttons">
       <button id="clearDisplay">CE</button>
