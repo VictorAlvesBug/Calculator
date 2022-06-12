@@ -14,20 +14,26 @@ function createCalculator(display) {
     } else currentDigits.innerText += numberOrComma;
   };
 
+  const updatePreviousCalc = strCalc => {
+    //const temp = previousCalc.innerText;
+    previousCalc.innerText = strCalc;
+    //console.log(`${temp} ${strCalc}`)
+  };
+
   const removeLastDigit = () => {
     isNewNumber = true;
     updateDisplay(currentDigits.innerText.slice(0, -1));
   };
 
   const selectOperator = (operatorParam) => {
-    operator = operatorParam;
-    if (isNewNumber) {
-      prevNumber = currentDigits.innerText;
-    } else {
-      prevNumber = calc(prevNumber, currentDigits.innerText);
-      isNewNumber = true;
-    }
-    currNumber = undefined;
+      if (isNewNumber) {
+          prevNumber = currentDigits.innerText;
+        } else {
+            prevNumber = calc(prevNumber, currentDigits.innerText);
+            isNewNumber = true;
+        }
+        currNumber = undefined;
+        operator = operatorParam;
     currentDigits.innerText = calc();
   };
 
@@ -43,16 +49,22 @@ function createCalculator(display) {
     num2 = num2 ?? currNumber;
 
     if (num2 === undefined) {
-      previousCalc.innerText = `${num1} ${operator}`;
+      updatePreviousCalc(`${num1} ${operator}`);
       return num1;
     }
 
     if (operator === undefined) {
-      previousCalc.innerText = `${num2} =`;
-      return num2;
+      updatePreviousCalc(`${currentDigits.innerText} =`);
+      return currentDigits.innerText;
     }
 
-    previousCalc.innerText = `${num1} ${operator} ${num2} =`;
+    if(operator === '/' && Number(usePoint(num2)) === 0){
+        console.error("Erro: divisão por zero resulta em um valor indeterminado.")
+        currNumber = num1;
+        return currNumber;
+    }
+
+    updatePreviousCalc(`${num1} ${operator} ${num2} =`);
     num1 = Number(usePoint(num1));
     num2 = Number(usePoint(num2));
     let result = eval(`${num1}${operator}${num2}`);
