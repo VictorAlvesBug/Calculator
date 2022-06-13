@@ -377,64 +377,64 @@ const tests = [
   },
   /* Outros */
   {
-    buttonsToPress: ['1', '+', '='],
-    targetResult: '2',
-    targetCalc: '1 + 1 ='
-  },
-  {
-    buttonsToPress: ['1', '+', '=', '='],
-    targetResult: '3',
-    targetCalc: '2 + 1 ='
-  },
-  {
-    buttonsToPress: ['1', '+', '=', '=', '='],
+    buttonsToPress: ['2', '+', '='],
     targetResult: '4',
-    targetCalc: '3 + 1 ='
+    targetCalc: '2 + 2 ='
   },
   {
-    buttonsToPress: ['1', '-', '='],
+    buttonsToPress: ['2', '+', '=', '='],
+    targetResult: '6',
+    targetCalc: '4 + 2 ='
+  },
+  {
+    buttonsToPress: ['2', '+', '=', '=', '='],
+    targetResult: '8',
+    targetCalc: '6 + 2 ='
+  },
+  {
+    buttonsToPress: ['2', '-', '='],
     targetResult: '0',
-    targetCalc: '1 - 1 ='
+    targetCalc: '2 - 2 ='
   },
   {
-    buttonsToPress: ['1', '-', '=', '='],
-    targetResult: '-1',
-    targetCalc: '0 - 1 ='
-  },
-  {
-    buttonsToPress: ['1', '-', '=', '=', '='],
+    buttonsToPress: ['2', '-', '=', '='],
     targetResult: '-2',
-    targetCalc: '-1 - 1 ='
+    targetCalc: '0 - 2 ='
   },
   {
-    buttonsToPress: ['1', '*', '='],
-    targetResult: '1',
-    targetCalc: '1 * 1 ='
+    buttonsToPress: ['2', '-', '=', '=', '='],
+    targetResult: '-4',
+    targetCalc: '-2 - 2 ='
   },
   {
-    buttonsToPress: ['1', '*', '=', '='],
-    targetResult: '1',
-    targetCalc: '1 * 1 ='
+    buttonsToPress: ['3', '*', '='],
+    targetResult: '9',
+    targetCalc: '3 * 3 ='
   },
   {
-    buttonsToPress: ['1', '*', '=', '=', '='],
-    targetResult: '1',
-    targetCalc: '1 * 1 ='
+    buttonsToPress: ['3', '*', '=', '='],
+    targetResult: '27',
+    targetCalc: '9 * 3 ='
   },
   {
-    buttonsToPress: ['1', '/', '='],
-    targetResult: '1',
-    targetCalc: '1 / 1 ='
+    buttonsToPress: ['3', '*', '=', '=', '='],
+    targetResult: '81',
+    targetCalc: '27 * 3 ='
   },
   {
-    buttonsToPress: ['1', '/', '=', '='],
+    buttonsToPress: ['5', '/', '='],
     targetResult: '1',
-    targetCalc: '1 / 1 ='
+    targetCalc: '5 / 5 ='
   },
   {
-    buttonsToPress: ['1', '/', '=', '=', '='],
-    targetResult: '1',
-    targetCalc: '1 / 1 ='
+    buttonsToPress: ['5', '/', '=', '='],
+    targetResult: '0,2',
+    targetCalc: '1 / 5 ='
+  },
+  {
+    buttonsToPress: ['5', '/', '=', '=', '='],
+    targetResult: '0,04',
+    targetCalc: '0,2 / 5 ='
   },
 ];
 
