@@ -2,7 +2,9 @@ import { createCalculator } from './calculator.js';
 import { createTestCalculator } from './testCalculator.js';
 import { createKeyboardCalculator } from './keyboardCalculator.js';
 
-const calculator = createCalculator(document.getElementById('display'));
+const display = document.getElementById('display')
+
+const calculator = createCalculator(display);
 const testCalculator = createTestCalculator(calculator);
 const keyboardCalculator = createKeyboardCalculator();
 
@@ -29,16 +31,22 @@ Object.entries(containerButtonsFunc).forEach(([selector, func]) => {
   document
     .querySelectorAll(selector)
     .forEach((button) =>
-      button.addEventListener('click', (event) => func(event))
+      button.addEventListener('click', (event) => {
+        // Removendo o foco do botão clicado via Mouse
+        // Envitando que o Enter pressione esse botão novamente
+        event.target.blur();
+        func(event);
+      })
     );
+});
+
+document.addEventListener('keyup', ({key}) => {
+  keyboardCalculator.pressKey(key);
 });
 
 const btnTestCalculator = document.querySelector('.test-calculator');
 
-btnTestCalculator.addEventListener('click', () => {
+btnTestCalculator.addEventListener('click', ({target}) => {
   testCalculator.runTests();
-});
-
-document.addEventListener('keyup', ({ key }) => {
-  keyboardCalculator.pressKey(key);
+  target.blur()
 });

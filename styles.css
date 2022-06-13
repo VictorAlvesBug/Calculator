@@ -164,7 +164,7 @@ body{
 }
 
 .test-calculator{
-    width: 200px;
+    width: 140px;
     height: 40px;
     background-color: var(--bgCalculator);
     color: var(--bgDisplay);

@@ -25,7 +25,7 @@ function createKeyboardCalculator() {
   const pressKey = (key) => {
     const selector = keyboardButtons[key];
     if (!selector) return;
-
+    console.log(selector)
     const element = document.querySelector(selector);
     if (!element) return;
 
