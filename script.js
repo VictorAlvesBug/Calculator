@@ -1,8 +1,10 @@
 import { createCalculator } from './calculator.js';
 import { createTestCalculator } from './testCalculator.js';
+import { createKeyboardCalculator } from './keyboardCalculator.js';
 
 const calculator = createCalculator(document.getElementById('display'));
 const testCalculator = createTestCalculator(calculator);
+const keyboardCalculator = createKeyboardCalculator();
 
 const containerButtonsFunc = {
   '#clearDisplay': () => calculator.clearDisplay(),
@@ -38,45 +40,5 @@ btnTestCalculator.addEventListener('click', () => {
 });
 
 document.addEventListener('keyup', ({ key }) => {
-  const keyboardButtons = {
-    0: '#key0',
-    1: '#key1',
-    2: '#key2',
-    3: '#key3',
-    4: '#key4',
-    5: '#key5',
-    6: '#key6',
-    7: '#key7',
-    8: '#key8',
-    9: '#key9',
-    '/': '#divideOperator',
-    '*': '#timesOperator',
-    '-': '#minusOperator',
-    '+': '#plusOperator',
-    '.': '#decimal',
-    ',': '#decimal',
-    '=': '#equal',
-    Enter: '#equal',
-    Escape: '#clearCalc',
-    Backspace: '#backspace',
-  };
-
-  const selector = keyboardButtons[key];
-
-  if (!selector) return;
-
-  pressButton(selector);
+  keyboardCalculator.pressKey(key);
 });
-
-function pressButton(selector) {
-  const element = document.querySelector(selector);
-  if(element){
-    var event = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });
-    
-    element.dispatchEvent(event);
-  }
-}

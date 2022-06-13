@@ -167,12 +167,13 @@ body{
     width: 200px;
     height: 40px;
     background-color: var(--bgCalculator);
-    color: var(--bgButton);
+    color: var(--bgDisplay);
     text-transform: uppercase;
     font-size: 20px;
     padding: 8px;
     font-family: Consolas;
     border-radius: 20px;
+    font-weight: bold;
     box-shadow: 0px 4px 10px #0009,
                 0px 4px 10px #0005;
     border: none;
