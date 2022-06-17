@@ -1,3 +1,4 @@
+// Teclas disponíveis para pressionar
 const keyboardButtons = {
   0: '#key0',
   1: '#key1',
@@ -21,6 +22,7 @@ const keyboardButtons = {
   Backspace: '#backspace',
 };
 
+// Factory responsável por identificar teclas do teclado e acionar a calculadora
 function createKeyboardCalculator() {
   const pressKey = (key) => {
     const selector = keyboardButtons[key];

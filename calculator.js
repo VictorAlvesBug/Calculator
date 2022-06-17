@@ -1,3 +1,5 @@
+
+// Factory responsável pela manipulação e funcionamento da calculadora
 function createCalculator(display) {
   const previousCalc = display.querySelector('.previousCalc');
   const currentDigits = display.querySelector('.currentDigits');
@@ -8,10 +10,12 @@ function createCalculator(display) {
   let currOperator;
   let calculated = false;
 
+  // Recupera valor do display principal
   const getDisplayDigits = () => {
     return currentDigits.innerText;
   };
 
+  // Atualiza valor do display principal
   const updateDisplayDigits = (number) => {
     const isZero = getDisplayDigits() === '0';
     if (isNewNumber || isZero) {
@@ -20,14 +24,17 @@ function createCalculator(display) {
     } else currentDigits.innerText += number;
   };
 
+  // Recupera valor do cálculo executado
   const getPreviousCalc = () => {
     return previousCalc.innerText;
   };
 
+  // Atualiza valor do cálculo executado
   const updatePreviousCalc = (strCalc) => {
     previousCalc.innerText = strCalc;
   };
 
+  // Computa números digitados e, caso seja uma conta independente, limpa cálculo
   const insertDigit = (number) => {
     if (calculated) {
       updatePreviousCalc('');
@@ -36,6 +43,7 @@ function createCalculator(display) {
     updateDisplayDigits(number);
   };
 
+  // Apaga o último dígito computado
   const removeLastDigit = () => {
     let newNumber = getDisplayDigits().slice(0, -1);
     if (newNumber === '') {
@@ -52,6 +60,7 @@ function createCalculator(display) {
     }
   };
 
+  // Define qual operador deve ser utilizado
   const selectOperator = (operatorParam) => {
     if (isNewNumber) {
       prevNumber = getDisplayDigits();
@@ -68,6 +77,7 @@ function createCalculator(display) {
     calculated = false;
   };
 
+  // Recupera valores e executa o cálculo solicitado
   const equal = () => {
     currNumber = currNumber ?? getDisplayDigits();
     prevNumber = calculate();
@@ -79,6 +89,7 @@ function createCalculator(display) {
     currOperator = undefined;
   };
 
+  // Executa o cálculo solicitado
   const calculate = (num1, num2) => {
     num1 = num1 ?? prevNumber;
     num2 = num2 ?? currNumber;
@@ -116,6 +127,7 @@ function createCalculator(display) {
     return useComma(result);
   };
 
+  // Alterna o número do display principal entre negativo e positivo
   const invertSignal = () => {
     const newNumber = usePoint(getDisplayDigits()) * -1;
     isNewNumber = true;
@@ -126,7 +138,13 @@ function createCalculator(display) {
     updateDisplayDigits(useComma(newNumber));
   };
 
+  // Insere uma vírgula no display principal
   const insertComma = () => {
+    if (calculated) {
+      updatePreviousCalc('');
+      prevOperator = undefined;
+    }
+
     const isZero = getDisplayDigits() === '0';
     if (isNewNumber || isZero) {
       isNewNumber = true;
@@ -139,12 +157,16 @@ function createCalculator(display) {
     }
   };
 
+  // Substitui ponto por vírgula. Exemplo: '12.34' para '12,34'
   const useComma = (number) =>
-    number.toString().replace(',', '').replace('.', ',');
-
+  number.toString().replace(',', '').replace('.', ',');
+  
+  // Substitui vírgula por ponto. Exemplo: '12,34' para '12.34'
   const usePoint = (number) =>
     number.toString().replace('.', '').replace(',', '.');
 
+    // Limpa display principal e, caso o cálculo atual já tenha sido resolvido,
+    // limpa display do cálculo
   const clearDisplay = () => {
     isNewNumber = true;
     updateDisplayDigits('0');
@@ -156,6 +178,7 @@ function createCalculator(display) {
     }
   };
 
+  // Limpa todo o display e a memória da calculadora
   const clearCalc = () => {
     clearDisplay();
     updatePreviousCalc('');
