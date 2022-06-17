@@ -53,5 +53,6 @@ const btnTestCalculator = document.querySelector('.test-calculator');
 // Botão responsável por rodar os testes e exibir o feedback no console
 btnTestCalculator.addEventListener('click', ({target}) => {
   testCalculator.runTests();
+  console.log(calculator.getHistory());
   target.blur()
 });

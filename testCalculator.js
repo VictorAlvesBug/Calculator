@@ -506,6 +506,9 @@ function createTestCalculator(calculator) {
     let listIndexPassedTests = [];
     let listIndexFailedTests = [];
 
+    // Desativa log no histórico
+    calculator.pauseHistory();
+
     // Reseta a calculadora
     calculator.clearCalc();
 
@@ -570,6 +573,9 @@ function createTestCalculator(calculator) {
       });
       console.warn(listFailedTests);
     }
+
+    // Ativa log no histórico
+    calculator.resumeHistory();
   };
 
   return {

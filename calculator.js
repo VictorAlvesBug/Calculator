@@ -9,6 +9,7 @@ function createCalculator(display) {
   let prevOperator;
   let currOperator;
   let calculated = false;
+  let historyPaused = false;
 
   // Recupera valor do display principal
   const getDisplayDigits = () => {
@@ -89,44 +90,6 @@ function createCalculator(display) {
     currOperator = undefined;
   };
 
-  // Executa o cálculo solicitado
-  const calculate = (num1, num2) => {
-    num1 = num1 ?? prevNumber;
-    num2 = num2 ?? currNumber;
-
-    if (num2 === undefined) {
-      updatePreviousCalc(`${num1} ${currOperator}`);
-      return num1;
-    }
-
-    if (currOperator === undefined) {
-      if (prevOperator === undefined) {
-        updatePreviousCalc(`${getDisplayDigits()} =`);
-        return getDisplayDigits();
-      }
-      currOperator = prevOperator;
-      prevOperator = undefined;
-    }
-
-    if (currOperator === '/' && Number(usePoint(num2)) === 0) {
-      alert('Erro: divisão por zero resulta em um valor indeterminado.');
-      clearCalc();
-      return 0;
-    }
-
-    updatePreviousCalc(`${num1} ${currOperator} ${num2} =`);
-    num1 = Number(usePoint(num1));
-    num2 = Number(usePoint(num2));
-    let result = eval(`${num1}${currOperator}${num2}`);
-
-    const maxDecimalPlacesAmount = 15;
-    const intPositiveResult = Math.floor(Math.abs(result));
-    const resultLength = intPositiveResult.toString().length;
-    const multiplier = Math.pow(10, maxDecimalPlacesAmount - resultLength);
-    result = Math.round(result * multiplier) / multiplier;
-    return useComma(result);
-  };
-
   // Alterna o número do display principal entre negativo e positivo
   const invertSignal = () => {
     const newNumber = usePoint(getDisplayDigits()) * -1;
@@ -155,6 +118,80 @@ function createCalculator(display) {
     if (hasNoComma) {
       updateDisplayDigits(',');
     }
+  };
+
+  // Recupera histórico de cálculos efetuados
+  const getHistory = () => {
+    let strHistory = localStorage.getItem('calculator_history');
+    
+    if(strHistory) {
+      return JSON.parse(strHistory)
+    }
+
+    return [];
+  };
+
+  const clearHistory = () => {
+    localStorage.setItem('calculator_history', '')
+  };
+
+  const pauseHistory = () => {
+    historyPaused = true;
+  };
+
+  const resumeHistory = () => {
+    historyPaused = false;
+  };
+
+  // Executa o cálculo solicitado
+  const calculate = (num1, num2) => {
+    num1 = num1 ?? prevNumber;
+    num2 = num2 ?? currNumber;
+
+    if (num2 === undefined) {
+      updatePreviousCalc(`${num1} ${currOperator}`);
+      return num1;
+    }
+
+    if (currOperator === undefined) {
+      if (prevOperator === undefined) {
+        updatePreviousCalc(`${getDisplayDigits()} =`);
+        return getDisplayDigits();
+      }
+      currOperator = prevOperator;
+      prevOperator = undefined;
+    }
+
+    if (currOperator === '/' && Number(usePoint(num2)) === 0) {
+      alert('Erro: divisão por zero resulta em um valor indeterminado.');
+      clearCalc();
+      return 0;
+    }
+
+    updatePreviousCalc(`${num1} ${currOperator} ${num2} =`);
+
+    num1 = Number(usePoint(num1));
+    num2 = Number(usePoint(num2));
+    let result = eval(`${num1}${currOperator}${num2}`);
+
+    const maxDecimalPlacesAmount = 15;
+    const intPositiveResult = Math.floor(Math.abs(result));
+    const resultLength = intPositiveResult.toString().length;
+    const multiplier = Math.pow(10, maxDecimalPlacesAmount - resultLength);
+    result = Math.round(result * multiplier) / multiplier;
+    
+    if(!historyPaused){
+      let history = getHistory();
+      
+      history.push({
+        calc: getPreviousCalc(),
+        result: useComma(result)
+      });
+      
+      localStorage.setItem('calculator_history', JSON.stringify(history))
+    }
+
+    return useComma(result);
   };
 
   // Substitui ponto por vírgula. Exemplo: '12.34' para '12,34'
@@ -201,6 +238,10 @@ function createCalculator(display) {
     clearCalc,
     getResult: getDisplayDigits,
     getCalc: getPreviousCalc,
+    getHistory,
+    clearHistory,
+    pauseHistory,
+    resumeHistory
   };
 }
 
