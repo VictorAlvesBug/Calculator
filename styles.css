@@ -1,198 +1,444 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-:root{
-    --bgBody: rgb(73, 73, 73);
-    --bgCalculator: #2a45e0;
-    --bgDisplay: #a2a6aa;
-    --bgNumberButton: #97cec2;
-    --bgOperatorButton: #eeac16;
-    --bgEqualButton: #f57474;
-    --textColor: black;
+:root {
+  --bgBody: rgb(73, 73, 73);
+  --bgCalculator: #2a45e0;
+  --bgDisplay: #a2a6aa;
+  --bgNumberButton: #97cec2;
+  --bgOperatorButton: #eeac16;
+  --bgEqualButton: #f57474;
+  --textColor: black;
 }
 
-body{
-    background-color: var(--bgBody);
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
+body {
+  background-color: var(--bgBody);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
 }
 
-.calculator{
-    background-color: var(--bgCalculator);
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    gap: 20px;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px #0009,
-                0px 4px 10px #0005;
+.container-calculator {
+  background-color: var(--bgCalculator);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px #0009, 0px 4px 10px #0005;
 }
 
-.display{
-    width: 100%;
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    background-color: var(--bgDisplay);
+.calculator {
+  position: relative;
+  background-color: var(--bgCalculator);
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  z-index: 2;
 }
 
-.display>.previousCalc{
-    min-width: 100px;
-    height: 20px;
-    font-size: 14px;
-    font-family: Consolas;
-    text-align: right;
-    font-weight: bold;
-    color: var(--textColor);
+.display {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: var(--bgDisplay);
 }
 
-.display>.currentDigits{
-    min-width: 100px;
-    height: 40px;
-    font-size: 28px;
-    font-family: Consolas;
-    text-align: right;
-    font-weight: bold;
-    color: var(--textColor);
+.display > .previousCalc {
+  min-width: 100px;
+  height: 20px;
+  font-size: 14px;
+  font-family: Consolas;
+  text-align: right;
+  font-weight: bold;
+  color: var(--textColor);
 }
 
-.container-buttons{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 15px;
+.display > .currentDigits {
+  min-width: 100px;
+  height: 40px;
+  font-size: 28px;
+  font-family: Consolas;
+  text-align: right;
+  font-weight: bold;
+  color: var(--textColor);
 }
 
-.container-buttons > button{
-    border-radius: 10px;
-    outline-style: none;
-    width: 50px;
-    height: 50px;
-    border: none;
-    background-color: var(--bgDisplay);
-    color: var(--textColor);
-    font-size: 20px;
-    cursor: pointer;
-    user-select: none;
+.container-buttons {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 15px;
 }
 
-.container-buttons > button:hover{
-    opacity: 0.8;
+.container-buttons > button {
+  border-radius: 10px;
+  outline-style: none;
+  width: 50px;
+  height: 50px;
+  border: none;
+  background-color: var(--bgDisplay);
+  color: var(--textColor);
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
 }
 
-.container-buttons > button:active{
-    transform: scale(0.9);
-    -webkit-transform: scale(0.9);
-    -moz-transform: scale(0.9);
-    -ms-transform: scale(0.9);
-    -o-transform: scale(0.9);
+.container-buttons > button:hover {
+  opacity: 0.8;
 }
 
-.container-buttons [id*=key] {
-    background-color: var(--bgNumberButton);
-    font-weight: bold;
+.container-buttons > button:active {
+  transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+  -moz-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  -o-transform: scale(0.9);
 }
 
-.container-buttons [id*=Operator] {
-    background-color: var(--bgOperatorButton);
+.container-buttons [id*='key'] {
+  background-color: var(--bgNumberButton);
+  font-weight: bold;
+}
+
+.container-buttons [id*='Operator'] {
+  background-color: var(--bgOperatorButton);
 }
 
 .container-buttons #equal {
-    background-color: var(--bgEqualButton);
+  background-color: var(--bgEqualButton);
 }
 
 #divideOperator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-#divideOperator > span{
-    width: 12px;
-    height: 2px;
-    background-color: var(--textColor);
+#divideOperator > span {
+  width: 12px;
+  height: 2px;
+  background-color: var(--textColor);
 }
-
 
 #divideOperator > span:before,
 #divideOperator > span:after {
-    content: '';
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    left: 50%;
-    background-color: var(--textColor);
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  left: 50%;
+  background-color: var(--textColor);
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
 }
 
 #divideOperator > span:before {
-    transform: translate(-50%, -5px);
-    -webkit-transform: translate(-50%, -5px);
-    -moz-transform: translate(-50%, -5px);
-    -ms-transform: translate(-50%, -5px);
-    -o-transform: translate(-50%, -5px);
+  transform: translate(-50%, -5px);
+  -webkit-transform: translate(-50%, -5px);
+  -moz-transform: translate(-50%, -5px);
+  -ms-transform: translate(-50%, -5px);
+  -o-transform: translate(-50%, -5px);
 }
 
 #divideOperator > span:after {
-    transform: translate(-50%, 5px);
-    -webkit-transform: translate(-50%, 5px);
-    -moz-transform: translate(-50%, 5px);
-    -ms-transform: translate(-50%, 5px);
-    -o-transform: translate(-50%, 5px);
+  transform: translate(-50%, 5px);
+  -webkit-transform: translate(-50%, 5px);
+  -moz-transform: translate(-50%, 5px);
+  -ms-transform: translate(-50%, 5px);
+  -o-transform: translate(-50%, 5px);
 }
 
-#decimal{
-    font-size: 30px;
+#decimal {
+  font-size: 30px;
 }
 
-.test-calculator{
-    width: 140px;
-    height: 40px;
-    background-color: var(--bgCalculator);
-    color: var(--bgDisplay);
-    text-transform: uppercase;
-    font-size: 20px;
-    padding: 8px;
-    font-family: Consolas;
-    border-radius: 20px;
-    font-weight: bold;
-    box-shadow: 0px 4px 10px #0009,
-                0px 4px 10px #0005;
-    border: none;
-    outline-style: none;
-    cursor: pointer;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
+.open-history {
+  position: absolute;
+  background-color: var(--bgCalculator);
+  top: 0;
+  right: -35px;
+  padding-left: 25px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
-.test-calculator:hover{
-    opacity: 0.8;
+.open-history:after {
+  content: '';
+  position: absolute;
+  background-color: transparent;
+  width: 30px;
+  height: 30px;
+  top: 30px;
+  right: 5px;
+  border-top-left-radius: 20px;
+  box-shadow: -10px -10px 1px var(--bgCalculator);
+  z-index: 1;
 }
 
-.test-calculator:active{
-    transform: scale(0.95);
-    -webkit-transform: scale(0.95);
-    -moz-transform: scale(0.95);
-    -ms-transform: scale(0.95);
-    -o-transform: scale(0.95);
+#btnOpenHistory {
+  position: relative;
+  border-radius: 10px;
+  outline-style: none;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: var(--bgCalculator);
+  border-radius: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+#btnOpenHistory > span {
+  background-color: var(--bgDisplay);
+  position: absolute;
+  width: 15px;
+  height: 2px;
+  left: 50%;
+  transform: translate(-50%);
+  -webkit-transform: translate(-50%);
+  -moz-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  -o-transform: translate(-50%);
+  z-index: 2;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+
+#btnOpenHistory > span:nth-child(1) {
+  top: 9px;
+}
+
+#btnOpenHistory > span:nth-child(2) {
+  top: 14px;
+}
+
+#btnOpenHistory > span:nth-child(3) {
+  top: 19px;
+}
+
+#btnOpenHistory > span:hover {
+  opacity: 0.8;
+}
+
+#btnOpenHistory:active {
+  transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+  -moz-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  -o-transform: scale(0.9);
+}
+
+#btnOpenHistory.opened > span {
+  width: 15px;
+  height: 2px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+#btnOpenHistory.opened > span:nth-child(1) {
+  transform: translate(-50%, -50%) rotate(45deg);
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+  -moz-transform: translate(-50%, -50%) rotate(45deg);
+  -ms-transform: translate(-50%, -50%) rotate(45deg);
+  -o-transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#btnOpenHistory.opened > span:nth-child(2) {
+  transform: translate(100%, -50%);
+  -webkit-transform: translate(100%, -50%);
+  -moz-transform: translate(100%, -50%);
+  -ms-transform: translate(100%, -50%);
+  -o-transform: translate(100%, -50%);
+}
+
+#btnOpenHistory.opened > span:nth-child(3) {
+  transform: translate(-50%, -50%) rotate(135deg);
+  -webkit-transform: translate(-50%, -50%) rotate(135deg);
+  -moz-transform: translate(-50%, -50%) rotate(135deg);
+  -ms-transform: translate(-50%, -50%) rotate(135deg);
+  -o-transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.container-history {
+  background-color: var(--bgCalculator);
+  width: 0px;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  border-radius: 20px;
+  right: -300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  opacity: 0;
+  transition: width .3s;
+  -webkit-transition: width .3s;
+  -moz-transition: width .3s;
+  -ms-transition: width .3s;
+  -o-transition: width .3s;
+  z-index: 1;
+}
+
+.container-history.opened {
+  width: 300px;
+  opacity: 1;
+  padding: 10px 20px 20px 50px;
+}
+
+.container-history > .history-title {
+  font-family: Consolas;
+  color: var(--bgDisplay);
+  font-size: 20px;
+}
+
+.container-history > .history {
+  background-color: var(--bgDisplay);
+  width: 100%;
+  height: 20px;
+  resize: none;
+  flex-grow: 1;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  font-family: Consolas;
+  font-size: 14px;
+  line-height: 20px;
+  overflow-y: scroll;
+  border-style: none;
+  outline: none;
+  text-align: right;
+}
+
+.history::-webkit-scrollbar {
+  width: 10px;
+  border-top-right-radius: 20px;
+  background-color: var(--bgNumberButton);
+}
+
+.history::-webkit-scrollbar-track {
+    background-color: var(--bgNumberButton);
+  border-radius: 20px;
+}
+
+.history::-webkit-scrollbar-thumb {
+  background-color: var(--bgOperatorButton);
+  border-radius: 20px;
+}
+
+.history > .history-item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.container-history > .history-options {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.history-options > button {
+  border: none;
+  outline-style: none;
+  background-color: var(--bgNumberButton);
+  font-family: Consolas;
+  color: var(--textColor);
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+  flex-grow: 1;
+}
+
+.history-options > button:hover {
+  opacity: 0.8;
+}
+
+.history-options > button:active {
+  transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  -o-transform: scale(0.95);
+}
+
+#btnClearHistory {
+  border-bottom-left-radius: 10px;
+}
+
+#btnPauseHistory {
+  border-bottom-right-radius: 10px;
+}
+
+.test-calculator {
+  width: 140px;
+  height: 40px;
+  background-color: var(--bgCalculator);
+  color: var(--bgDisplay);
+  text-transform: uppercase;
+  font-size: 20px;
+  padding: 8px;
+  font-family: Consolas;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 0px 4px 10px #0009, 0px 4px 10px #0005;
+  border: none;
+  outline-style: none;
+  cursor: pointer;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+.test-calculator:hover {
+  opacity: 0.8;
+}
+
+.test-calculator:active {
+  transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  -o-transform: scale(0.95);
 }

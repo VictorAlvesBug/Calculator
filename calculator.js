@@ -135,6 +135,10 @@ function createCalculator(display) {
     localStorage.setItem('calculator_history', '')
   };
 
+  const toggleHistory = () => {
+    historyPaused = !historyPaused;
+  };
+
   const pauseHistory = () => {
     historyPaused = true;
   };
@@ -142,6 +146,8 @@ function createCalculator(display) {
   const resumeHistory = () => {
     historyPaused = false;
   };
+
+  const isHistoryPaused = () => historyPaused;
 
   // Executa o cálculo solicitado
   const calculate = (num1, num2) => {
@@ -240,8 +246,10 @@ function createCalculator(display) {
     getCalc: getPreviousCalc,
     getHistory,
     clearHistory,
+    toggleHistory,
     pauseHistory,
-    resumeHistory
+    resumeHistory,
+    isHistoryPaused
   };
 }
 
